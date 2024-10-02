@@ -1,5 +1,5 @@
 setwd("/Users/ronghanli/Downloads/peaks")
-% Install and load required R libraries
+# Install and load required R libraries
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
@@ -10,13 +10,13 @@ library(ChIPseeker)
 library(TxDb.Hsapiens.UCSC.hg38.knownGene)
 library(GenomicRanges)
 
-% Load BroadPeak files
+# Load BroadPeak files
 peak_files <- c("LIB047011-DIL01_22CYYVLT4_S129_L005.peaks.bed", 
                 "LIB047013-DIL01_22CYYHLT4_S747_L007.peaks.bed", 
                 "LIB047012-DIL01_22C7G2LT4_S1_L002.peaks.bed", 
                 "LIB047014-DIL01_22CYYHLT4_S712_L004.peaks.bed")
 
-% Plot annotated results
+# Plot annotated results
 for (file in peak_files) {
     # Read peak files
     peaks <- read.table(file, header = FALSE)
