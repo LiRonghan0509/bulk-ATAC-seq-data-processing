@@ -15,4 +15,7 @@ A pipeline for bulk ATAC-seq data preprocessing. From .fasta files to peak calli
 - Count the ratio of properly paired reads: `samtools flagstat`
 ## Post-alignment analysis
 - ATACseqQC
+```{bash}
+alanayuchen/cut_tag_bulk:4.7
+```
 - Peak calling and annotation
