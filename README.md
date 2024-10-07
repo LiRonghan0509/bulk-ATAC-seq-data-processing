@@ -16,11 +16,12 @@ A pipeline for bulk ATAC-seq data preprocessing. From .fasta files to peak calli
 ## Post-alignment analysis
 - ATACseqQC
 ```{bash}
-alanayuchen/cut_tag_bulk:4.7
+ronghanli2002/atacseqqc:hg38
 ```
 
 ```{bash}
-ronghanli2002/atacseqqc:hg38
+bsub -Is -q general-interactive -G compute-yeli -R 'rusage[mem=128GB]' -a 'docker(ronghanli2002/atacseqqc:hg38)' /bin/bash    
 ```
-  ATACseqQC requires a very large amount of CPU memory. (Every .bam file~50GB. Even when CPU mem=512GB, sessions were killed as well). Using `0.data_splitbam.sh` to split the whole .bam file into small .chr.bam files
+  ATACseqQC requires a very large amount of CPU memory. (Every .bam file~50GB. Even when CPU mem=512GB, sessions were killed as well). Using `0.data_splitbam.sh` to split the whole .bam file into small .chr.bam files.
+  For the splited .chr.bam files, they just require `CPUmem=128GB`, and use the docker image `ronghanli2002/atacseqqc:hg38`
 - Peak calling and annotation
