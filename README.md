@@ -18,4 +18,5 @@ A pipeline for bulk ATAC-seq data preprocessing. From .fasta files to peak calli
 ```{bash}
 alanayuchen/cut_tag_bulk:4.7
 ```
+  ATACseqQC requires a very large amount of CPU memory. (Every .bam file~50GB. Even when CPU mem=512GB, sessions were killed as well). Using `0.data_splitbam.sh` to split the whole .bam file into small .chr.bam files
 - Peak calling and annotation
