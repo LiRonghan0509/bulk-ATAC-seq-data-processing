@@ -1,0 +1,5 @@
+### ATACseqQC
+
+To install ATACseqQC package and implement it on Rstudio:
+- Download miniconda3 on linux
+-
