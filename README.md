@@ -1,6 +1,8 @@
 # Bulk ATAC-seq data preprocessing pipeline
 A pipeline for bulk ATAC-seq data preprocessing. From .fasta files to peak calling. Using the docker image `ronghanli2002/bulkatac:&lt;tag`
-
+## Workflow for bulk ATAC-seq data processing and analysis
+![atac_analysis](https://github.com/user-attachments/assets/f7ef2dca-341a-47ac-b15a-5900c279d83a)
+Created in  https://BioRender.com
 ## Pre-alignment and alignment
 - Data trimming on the .fastq files
 - Cut off adaptors: `trim_galore`
