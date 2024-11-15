@@ -1,0 +1,74 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+setwd("/Users/ronghanli/Desktop")
+dir.create("/Users/ronghanli/Desktop/filtered_peaks_files/R_libraries")
+.libPaths("/Users/ronghanli/Desktop/filtered_peaks_files/R_libraries")
+```
+
+```{r}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+
+BiocManager::install("ChIPseeker")
+BiocManager::install("TxDb.Hsapiens.UCSC.hg38.knownGene")
+
+```
+
+
+```{r}
+library(ChIPseeker)
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)  # Ensure using hg38 consistently
+library(GenomicRanges)
+```
+
+```{r}
+
+annotated_peak_files <- c("LIB047011-DIL01_22CYYVLT4_S129_L005_peaks.narrowPeak", 
+                          "LIB047013-DIL01_22CYYHLT4_S747_L007_peaks.narrowPeak", 
+                          "LIB047012-DIL01_22C7G2LT4_S1_L002_peaks.narrowPeak", 
+                          "LIB047014-DIL01_22CYYHLT4_S712_L004_peaks.narrowPeak")
+```
+
+```{r}
+for (file in annotated_peak_files) {
+  # 读取注释峰值文件
+  annotated_peaks <- read.table(file, header = FALSE)
+  colnames(annotated_peaks) <- c("chr", "start", "end", "name", "score", "strand", "signalValue", "pValue", "qValue", "peak")
+  
+  # 将注释峰值转换为 GRanges 对象
+  peaks_gr <- GRanges(seqnames = annotated_peaks$chr,
+                      ranges = IRanges(start = annotated_peaks$start, end = annotated_peaks$end))
+  
+  # 进行峰值注释，使用 hg38 数据库
+  MacsCalls_Anno <- annotatePeak(peaks_gr, TxDb = TxDb.Hsapiens.UCSC.hg38.knownGene)
+  
+  # 打印注释结果
+  print(MacsCalls_Anno)
+  
+  # 提取文件名而不替换路径中的其他部分
+  base_filename <- sub(".bed$", "", basename(file))
+  
+  # 绘制饼图
+  pie_chart_filename <- paste0("peak_annotation_", base_filename, "_pie_chart.pdf")
+  pdf(pie_chart_filename)
+  plotAnnoPie(MacsCalls_Anno)
+  dev.off()
+  
+  # 绘制条形图
+  bar_chart_filename <- paste0("peak_annotation_", base_filename, "_bar_chart.png")
+  png(bar_chart_filename)
+  plotAnnoBar(MacsCalls_Anno)
+  dev.off()
+}
+
+
+```
+
